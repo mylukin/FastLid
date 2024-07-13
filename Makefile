@@ -24,3 +24,9 @@ docker-build:
 docker-push: docker-build
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)
 	docker push $(IMAGE_NAME):latest
+
+docker-pull:
+	docker pull $(IMAGE_NAME):latest
+
+docker-run:
+	docker run -d -p 5000:5000 $(IMAGE_NAME):latest
