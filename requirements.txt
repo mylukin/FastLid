@@ -1,0 +1,4 @@
+Flask==3.0.3
+fasttext==0.9.3
+wheel
+gunicorn
