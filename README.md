@@ -1,4 +1,3 @@
-
 # FastText Flask Service
 
 A simple Flask service for language detection using FastText.
@@ -18,68 +17,68 @@ A simple Flask service for language detection using FastText.
 
 ### Clone the repository
 
-\`\`\`sh
+```sh
 git clone https://github.com/mylukin/FastLid.git
 cd fasttext_flask_service
-\`\`\`
+```
 
 ### Set up Python virtual environment
 
-\`\`\`sh
+```sh
 python -m venv venv
-\`\`\`
+```
 
 ### Install dependencies
 
-\`\`\`sh
+```sh
 make install
-\`\`\`
+```
 
 ## Running the Service
 
 ### Run locally
 
-\`\`\`sh
+```sh
 make run
-\`\`\`
+```
 
 ### Stop the service
 
-\`\`\`sh
+```sh
 make stop
-\`\`\`
+```
 
 ### Restart the service
 
-\`\`\`sh
+```sh
 make restart
-\`\`\`
+```
 
 ## Docker
 
 ### Build Docker image
 
-\`\`\`sh
+```sh
 make docker-build
-\`\`\`
+```
 
 ### Push Docker image to repository
 
-\`\`\`sh
+```sh
 make docker-push
-\`\`\`
+```
 
 ### Pull Docker image from repository
 
-\`\`\`sh
+```sh
 make docker-pull
-\`\`\`
+```
 
 ### Run Docker container
 
-\`\`\`sh
+```sh
 make docker-run
-\`\`\`
+```
 
 ## API Endpoint
 
@@ -90,19 +89,19 @@ make docker-run
 - **Content-Type:** \`application/json\`
 - **Request Body:**
 
-\`\`\`json
+```json
 {
   "text": "Hello, world!"
 }
-\`\`\`
+```
 
 - **Response:**
 
-\`\`\`json
+```json
 {
   "language": "en"
 }
-\`\`\`
+```
 
 ## Model
 
