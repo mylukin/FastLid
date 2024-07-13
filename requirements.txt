@@ -1,4 +1,5 @@
 Flask==3.0.3
+numpy==1.21.4
 fasttext==0.9.3
 wheel
 gunicorn
