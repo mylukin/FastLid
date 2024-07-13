@@ -19,7 +19,7 @@ A simple Flask service for language detection using FastText.
 
 ```sh
 git clone https://github.com/mylukin/FastLid.git
-cd fasttext_flask_service
+cd FastLid
 ```
 
 ### Set up Python virtual environment
