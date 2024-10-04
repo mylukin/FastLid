@@ -5,6 +5,7 @@ IMAGE_TAG := $(shell date +%Y%m%d)
 .PHONY: run stop restart install
 
 install:
+	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install wheel
 	$(VENV)/bin/pip install -r requirements.txt
 
