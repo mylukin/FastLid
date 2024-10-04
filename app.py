@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import fasttext
 import re
+import html
 
 app = Flask(__name__)
 
@@ -13,24 +14,28 @@ except Exception as e:
 
 def clean_text(text):
     """
-    Clean text by removing newlines and extra whitespace
+    Clean text by removing HTML tags and normalizing whitespace
     """
     if not text:
         return ""
-    # Replace newlines and tabs with spaces
-    text = re.sub(r'[\n\t\r]+', ' ', text)
+    
+    # Unescape HTML entities and Unicode escapes
+    text = html.unescape(text)
+    
+    # Remove HTML tags
+    text = re.sub(r'<[^>]+>', '', text)
+    
     # Replace multiple spaces with single space
     text = re.sub(r'\s+', ' ', text)
+    
     return text.strip()
 
 @app.route('/detect_language', methods=['POST'])
 def detect_language():
     try:
-        # Check if model is loaded correctly
         if not model:
             return jsonify({"error": "Language detection model failed to load"}), 500
 
-        # Validate input
         if not request.is_json:
             return jsonify({"error": "Request must be JSON format"}), 400
 
