@@ -30,7 +30,7 @@ docker-pull:
 	docker pull $(IMAGE_NAME):latest
 
 docker-run:
-	docker run -d --name fastlid -p 5000:5000 $(IMAGE_NAME):latest
+	docker run -d --name fastlid --restart always -p 5000:5000 $(IMAGE_NAME):latest
 
 docker-stop:
 	docker stop fastlid
