@@ -5,6 +5,11 @@ import html
 
 app = Flask(__name__)
 
+# Constants for text length limits
+MIN_TEXT_LENGTH = 20    # Minimum characters required
+MAX_TEXT_LENGTH = 1000  # Maximum characters to process
+TRUNCATE_LENGTH = 500   # Length to truncate if text is too long
+
 # Load FastText model
 try:
     model = fasttext.load_model("lid.176.bin")
@@ -28,7 +33,15 @@ def clean_text(text):
     # Replace multiple spaces with single space
     text = re.sub(r'\s+', ' ', text)
     
-    return text.strip()
+    text = text.strip()
+    
+    # Truncate if text is too long
+    if len(text) > TRUNCATE_LENGTH:
+        # Try to truncate at a word boundary
+        truncated = text[:TRUNCATE_LENGTH].rsplit(' ', 1)[0]
+        return truncated.strip()
+    
+    return text
 
 @app.route('/detect_language', methods=['POST'])
 def detect_language():
@@ -45,8 +58,21 @@ def detect_language():
 
         # Clean text
         cleaned_text = clean_text(text)
-        if not cleaned_text:
-            return jsonify({"error": "Cleaned text is empty"}), 400
+        
+        # Check text length
+        if len(cleaned_text) < MIN_TEXT_LENGTH:
+            return jsonify({
+                "error": f"Text too short. Minimum length is {MIN_TEXT_LENGTH} characters",
+                "processed_text": cleaned_text,
+                "text_length": len(cleaned_text)
+            }), 400
+
+        if len(cleaned_text) > MAX_TEXT_LENGTH:
+            return jsonify({
+                "error": f"Text too long. Maximum length is {MAX_TEXT_LENGTH} characters",
+                "processed_text": cleaned_text[:100] + "...",  # Show preview
+                "text_length": len(cleaned_text)
+            }), 400
 
         # Predict language
         predictions = model.predict(cleaned_text, k=1)
@@ -57,6 +83,7 @@ def detect_language():
             "language": language,
             "confidence": confidence,
             "processed_text": cleaned_text,
+            "text_length": len(cleaned_text),
             "status": "success"
         })
 
